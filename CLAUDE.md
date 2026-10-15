@@ -34,6 +34,16 @@ Advanced challenges:
 - Telemetry columns are sparse (empty for many rows) and `engine_concept` / `fuel_type` have many blanks; `trip_distance_mode` and `speed_mode` are typed as strings in the dictionary.
 - Socio-economic columns are zip-code level, so they are shared by all clients in the same zip and are partly redundant with each other (`purchasing_power_millions_eur` ≈ per-household × households).
 
+## Course notes (reference material)
+
+The team's university notes (Spanish/English PDFs) are committed as reference. Prefer the techniques they teach so the work matches what judges/mentors expect from UMA students:
+
+- `Apunte Clustering.pdf` — despite the name, it covers **data preprocessing**, not clustering algorithms: missing values (drop rows only if <5% and not biased; drop columns that are mostly empty; mean/median/mode, regression, KNN with Gower distance, EM imputation), outliers (Z-score >3, IQR 1.5 rule, boxplots; remove only if error and <5%, otherwise impute or log/sqrt transform), redundancy detection (Chi-square for nominal, Pearson/Spearman |r| > 0.8 for numeric), scaling (Min-Max, Z-score, decimal), transforms (log, power, Box-Cox), encoding (one-hot, label, ordinal), feature/record selection (filter/wrapper/embedded, stratified sampling), PCA, and discretization. Embedded images are missing ("No se encontró … .png").
+- `Apuntes Python/` — introductory slides by Ezequiel López-Rubio (UMA) on `Python.pdf`, `Pandas.pdf`, `Matplotlib.pdf` and `Sklearn.pdf` (estimator API, validation, models, metrics). They assume Jupyter/Google Colab (`%matplotlib inline`).
+- `Apuntes Python/Numpy.pdf` is **truncated/corrupted** (missing EOF, unreadable by `pdftotext`); ask the user for a fresh copy if it's needed.
+
+Text can be extracted with `pdftotext -layout <file> -` (poppler is installed).
+
 ## Conventions
 
 - Deliverable artifacts (notebooks, summaries, segment names) are evaluated by Spanish-speaking judges; the brief and data dictionary are in Spanish.
