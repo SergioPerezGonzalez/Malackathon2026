@@ -46,7 +46,7 @@ Lectura: `pd.read_csv(path, index_col=0)`.
 - [ ] Comprobar si los nulos son aleatorios: % de nulos de telemetría por `is_current_vehicle` (74 % en no actuales vs 53 % en actuales) → **no aleatorio**.
 
 ### 1.4 Inconsistencias
-- [ ] Crosstab `engine_concept` × `fuel_type` (coherencia y posibilidad de imputación cruzada).
+- [ ] Crosstab `engine_concept` × `fuel_type` (coherencia; los nulos coinciden en las mismas filas).
 - [ ] Columnas `*_mode` de tipo texto con listas de intervalos.
 - [ ] Outliers con IQR y Z-score (apuntes): `speed_average`, `fuel_consumption_average`, `trip_distance_average`, `operating_hours_total`, `workshop_visits_warranty_goodwill`, `speed_all_counter`.
 - [ ] Ceros sospechosos: `population` / `number_of_households` = 0.
@@ -100,7 +100,7 @@ Lectura: `pd.read_csv(path, index_col=0)`.
 | Q0 | Fichero inicial truncado al descargar de Drive | Faltaban 17.925 filas (índice 23256–41180) y una línea empalmada con 52 campos | Re-descarga y verificación por SHA-256, índice continuo y 39 campos por línea. **Resuelto** |
 | Q1 | Granularidad cliente–vehículo | 302.850 filas para 173.456 clientes | Agregar a una fila por cliente antes de clusterizar (Reto 2) |
 | Q2 | Telemetría ausente ~60 % | Nulos en bloque; dependen de `is_current_vehicle` (no aleatorios) | No imputar a ciegas: flag `has_telemetry` + agregación por cliente; mediana solo si se usa en el modelo |
-| Q3 | `engine_concept` 44 % nulos, `fuel_type` 59 % | Crosstab: son coherentes entre sí | Imputación cruzada (`ELECTRIC`↔`ELECTRIC`, `*,ELECTRIC`→`PLUGIN_HYBRID`), luego por `vehicle_type` (EQ*, ` d`, ` e`/`de`); resto `UNKNOWN` |
+| Q3 | `engine_concept` 44 % nulos, `fuel_type` 59 % | Crosstab: coherentes, pero `fuel_type` es nulo siempre que `engine_concept` lo es | Completar desde `vehicle_type` (motorización más frecuente del modelo + reglas EQ*, `e`/`de`, hybrid); resto imputado a nivel cliente (Reto 2) |
 | Q4 | `gender_derived` 11 % nulos y es inferido | Diccionario: "no es un dato declarado" | Categoría `unknown`; usar solo para perfilado |
 | Q5 | Socioeconómicas 6,3 % nulos; `zipcode` 5,3 % | Hay filas con zipcode pero sin socioeconómicas | Mediana por `country_code` |
 | Q6 | `population` / `number_of_households` = 0 | 73 filas | Tratar como NaN e imputar como Q5 |
