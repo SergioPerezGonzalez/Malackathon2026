@@ -6,11 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Malackathon 2026 (Universidad de Málaga) entry for the Mercedes-Benz Group Services Madrid challenge **"Clustering the Star"**: segment Mercedes-Benz customers with unsupervised learning (K-Means required) to drive personalized marketing (vehicle offers, maintenance plans, loyalty campaigns, targeted communications). Judging rewards **business interpretation and commercial usefulness** of the segments, not just technical metrics.
 
-The full brief and data dictionary are in `Reto Malackathon _MercedesBenz_2026.pdf` (Spanish). Stack: Python with pandas + scikit-learn, delivered as Jupyter notebooks in `notebooks/` (one per challenge, e.g. `01_eda.ipynb`). Notebooks read the CSV via the relative path `../datos_reto_mercedes_benz_malackathon.csv`. The system `python3` has no pandas; use `uv`:
+The full brief and data dictionary are in `Reto Malackathon _MercedesBenz_2026.pdf` (Spanish). Stack: Python with pandas + scikit-learn, delivered as Jupyter notebooks: basic challenges in `notebooks-básico/` (`01_eda`, `02_feature_engineering`, `03_kmeans`, `04_segmentos`) and advanced ones in `notebooks-avanzado/`. Notebooks locate the CSV and `data/processed/` by searching `.` and `..`. Run order matters: 02 writes `data/processed/X_model.csv` + `client_features.csv`, 03 writes `clusters.csv` (~10 min, 5 seeds × k=2…12), 04 and the advanced notebooks read them. The system `python3` has no pandas; use `uv`:
 
 ```bash
-# Execute a notebook in place (run from notebooks/ so the relative data path resolves)
-cd notebooks && uv run --with-requirements ../requirements.txt --with nbconvert --with ipykernel \
+# Execute a notebook in place
+cd notebooks-básico && uv run --with-requirements ../requirements.txt --with nbconvert --with ipykernel \
   jupyter nbconvert --to notebook --execute --inplace 01_eda.ipynb
 ```
 
