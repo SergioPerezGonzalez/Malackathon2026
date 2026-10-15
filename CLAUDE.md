@@ -6,7 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Malackathon 2026 (Universidad de Málaga) entry for the Mercedes-Benz Group Services Madrid challenge **"Clustering the Star"**: segment Mercedes-Benz customers with unsupervised learning (K-Means required) to drive personalized marketing (vehicle offers, maintenance plans, loyalty campaigns, targeted communications). Judging rewards **business interpretation and commercial usefulness** of the segments, not just technical metrics.
 
-The full brief and data dictionary are in `Reto Malackathon _MercedesBenz_2026.pdf` (Spanish). There is no code yet; no environment or dependency file exists (the system `python3` has no pandas). Recommended stack per the brief: Python with pandas + scikit-learn, delivered as Jupyter notebooks.
+The full brief and data dictionary are in `Reto Malackathon _MercedesBenz_2026.pdf` (Spanish). Stack: Python with pandas + scikit-learn, delivered as Jupyter notebooks in `notebooks/` (one per challenge, e.g. `01_eda.ipynb`). Notebooks read the CSV via the relative path `../datos_reto_mercedes_benz_malackathon.csv`. The system `python3` has no pandas; use `uv`:
+
+```bash
+# Execute a notebook in place (run from notebooks/ so the relative data path resolves)
+cd notebooks && uv run --with-requirements ../requirements.txt --with nbconvert --with ipykernel \
+  jupyter nbconvert --to notebook --execute --inplace 01_eda.ipynb
+```
+
+Read the CSV with `pd.read_csv(path, index_col=0, dtype={"zipcode": str})` — without the dtype, zipcodes mix int/str and look inconsistent per client. Valid file SHA-256: `fb58cecbb924f358967fb5c95259b5f726901b6a0e0a3cc38b849665f48c1dde` (302,850 rows); an earlier Drive download was silently truncated. Plans live in `docs/`.
 
 ## Deliverables (from the brief)
 
@@ -25,7 +33,7 @@ Advanced challenges:
 
 ## Data
 
-`datos_reto_mercedes_benz_malackathon.csv` (~90 MB, ~285k rows, committed to git). Notes that affect every notebook:
+`datos_reto_mercedes_benz_malackathon.csv` (95.5 MB, 302,850 rows, committed to git). Notes that affect every notebook:
 
 - The first column is an unnamed pandas index — read with `index_col=0`.
 - Grain is **client–vehicle**, not client: a `client_id` can appear on several rows (one per vehicle, current or past via `is_current_vehicle`). Customer segmentation needs an explicit decision to aggregate to one row per client (or filter to current vehicles) — make and document this choice before clustering.
@@ -38,7 +46,9 @@ Advanced challenges:
 
 The team's university notes (Spanish/English PDFs) are committed as reference. Prefer the techniques they teach so the work matches what judges/mentors expect from UMA students:
 
-- `Apunte Clustering.pdf` — despite the name, it covers **data preprocessing**, not clustering algorithms: missing values (drop rows only if <5% and not biased; drop columns that are mostly empty; mean/median/mode, regression, KNN with Gower distance, EM imputation), outliers (Z-score >3, IQR 1.5 rule, boxplots; remove only if error and <5%, otherwise impute or log/sqrt transform), redundancy detection (Chi-square for nominal, Pearson/Spearman |r| > 0.8 for numeric), scaling (Min-Max, Z-score, decimal), transforms (log, power, Box-Cox), encoding (one-hot, label, ordinal), feature/record selection (filter/wrapper/embedded, stratified sampling), PCA, and discretization. Embedded images are missing ("No se encontró … .png").
+- `EDA.pdf` — **data preprocessing** notes: missing values (drop rows only if <5% and not biased; drop columns that are mostly empty; mean/median/mode, regression, KNN with Gower distance, EM imputation), outliers (Z-score >3, IQR 1.5 rule, boxplots; remove only if error and <5%, otherwise impute or log/sqrt transform), redundancy detection (Chi-square for nominal, Pearson/Spearman |r| > 0.8 for numeric), scaling (Min-Max, Z-score, decimal), transforms (log, power, Box-Cox), encoding (one-hot, label, ordinal), feature/record selection (filter/wrapper/embedded, stratified sampling), PCA, and discretization. Embedded images are missing ("No se encontró … .png").
+- `Apuntes Clustering/Tema 1 Intro/` — introduction, dimensionality reduction and PCA (relevant to advanced challenge 2).
+- `Apuntes Clustering/Tema 2 Clustering/` — T2-1 clustering intro, T2-2 K-Means, T2-3 Mean-Shift, T2-4 DBSCAN, T2-5 hierarchical, T2-6 self-organizing maps (plus `SOM( Ejemplos).pptx`), T2-7 cluster validation (elbow/silhouette, relevant to challenges 3 and advanced 1).
 - `Apuntes Python/` — introductory slides by Ezequiel López-Rubio (UMA) on `Python.pdf`, `Pandas.pdf`, `Matplotlib.pdf` and `Sklearn.pdf` (estimator API, validation, models, metrics). They assume Jupyter/Google Colab (`%matplotlib inline`).
 - `Apuntes Python/Numpy.pdf` is **truncated/corrupted** (missing EOF, unreadable by `pdftotext`); ask the user for a fresh copy if it's needed.
 
