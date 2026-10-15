@@ -14,7 +14,7 @@ cd notebooks-básico && uv run --with-requirements ../requirements.txt --with nb
   jupyter nbconvert --to notebook --execute --inplace 01_eda.ipynb
 ```
 
-Read the CSV with `pd.read_csv(path, index_col=0, dtype={"zipcode": str})` — without the dtype, zipcodes mix int/str and look inconsistent per client. Valid file SHA-256: `fb58cecbb924f358967fb5c95259b5f726901b6a0e0a3cc38b849665f48c1dde` (302,850 rows); an earlier Drive download was silently truncated. Plans live in `docs/`.
+Read the CSV with `pd.read_csv(path, index_col=0, dtype={"zipcode": str})` — without the dtype, zipcodes mix int/str and look inconsistent per client. Valid file SHA-256: `fb58cecbb924f358967fb5c95259b5f726901b6a0e0a3cc38b849665f48c1dde` (302,850 rows); an earlier Drive download was silently truncated. `docs/resumen-retos-basicos.pdf` is the mentor-facing summary of the basic challenges; the project overview for readers is `README.md`.
 
 ## Deliverables (from the brief)
 
