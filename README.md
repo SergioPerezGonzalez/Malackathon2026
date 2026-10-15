@@ -26,6 +26,7 @@ De 302.850 filas cliente–vehículo se obtienen **173.454 clientes** con 19 fea
 | Básico 4 — Interpretación de segmentos | [`notebooks-básico/04_segmentos.ipynb`](notebooks-básico/04_segmentos.ipynb) |
 | Avanzado 1 — Comparativa con GMM y DBSCAN | [`notebooks-avanzado/05_comparativa.ipynb`](notebooks-avanzado/05_comparativa.ipynb) |
 | Avanzado 2 — PCA y visualización | [`notebooks-avanzado/06_pca.ipynb`](notebooks-avanzado/06_pca.ipynb) |
+| Avanzado 3 — Estabilidad (Jackknife) | [`notebooks-avanzado/07_jackknife.ipynb`](notebooks-avanzado/07_jackknife.ipynb) |
 
 Cada notebook empieza con un **resumen** (qué se hizo, resultados clave y decisiones) y explica cada tabla y gráfico con una celda de interpretación.
 
@@ -38,14 +39,12 @@ uv venv
 uv pip install -r requirements.txt ipykernel
 ```
 
-Abrir los notebooks con el kernel de `.venv` y ejecutarlos **en este orden**, porque cada uno genera ficheros que usan los siguientes:
+Los ficheros intermedios ya están en `data/processed/`, así que cualquier notebook se puede abrir directamente. Para regenerarlos desde cero, ejecutar con el kernel de `.venv` **en este orden**, porque cada uno genera ficheros que usan los siguientes:
 
 1. `01_eda.ipynb` — independiente.
 2. `02_feature_engineering.ipynb` — genera `data/processed/X_model.csv` y `client_features.csv`.
 3. `03_kmeans.ipynb` — genera `data/processed/clusters.csv` (tarda ~10 minutos: 55 modelos).
-4. `04_segmentos.ipynb`, `05_comparativa.ipynb` y `06_pca.ipynb` — leen los ficheros anteriores.
-
-`data/processed/` no se sube al repositorio (`.gitignore`): hay que generarlo ejecutando el 02 y el 03.
+4. `04_segmentos.ipynb`, `05_comparativa.ipynb`, `06_pca.ipynb` y `07_jackknife.ipynb` — leen los ficheros anteriores.
 
 ## Datos
 
@@ -64,7 +63,6 @@ Una descarga desde Drive llegó truncada sin avisar: el notebook 01 comprueba el
 ├── notebooks-básico/                          retos básicos 1–4
 ├── notebooks-avanzado/                        retos avanzados
 ├── docs/resumen-retos-basicos.pdf             resumen para mentores
-├── data/processed/                            ficheros generados (no versionados)
-├── Apuntes Clustering/, Apuntes Python/, EDA.pdf   apuntes de la asignatura usados como referencia
+├── data/processed/                            ficheros generados por los notebooks 02 y 03
 └── requirements.txt
 ```
